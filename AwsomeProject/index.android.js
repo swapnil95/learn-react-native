@@ -55,7 +55,7 @@ class AwsomeProject extends Component {
            style={{backgroundColor: '#5E7690'}}
          />
        }
-        style={{padding: 100}}
+        style={{padding: 10, paddingTop:80}}
       />
     );
   }
