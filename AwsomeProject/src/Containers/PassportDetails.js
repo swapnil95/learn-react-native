@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
-import { Text, ScrollView, StyleSheet, TouchableNativeFeedback, View, TextInput } from 'react-native'
+import { Text, ScrollView, StyleSheet, TouchableNativeFeedback, View, TextInput, Picker } from 'react-native'
 import Form from 'react-native-form'
 import DatePicker from 'react-native-datepicker'
+import countries from '../Constants/countries'
+
 
 export default class PassportDetails extends Component {
   constructor(props) {
@@ -35,7 +37,7 @@ export default class PassportDetails extends Component {
   return (
     <ScrollView>
       <Form ref="form" customFields={customFields}>
-        <TextInput placeholder="Passport Number" type="TextInput" name="myTextInput" />
+        <TextInput placeholder="Passport Number" type="TextInput" name="passportNumber" />
         <DatePicker
           style={{width: 300}}
           date={this.state.passportIssuanceDate}
@@ -52,6 +54,16 @@ export default class PassportDetails extends Component {
           type="DatePicker"
           name="passportExpirationDate"
         />
+        <TextInput placeholder="Place of Issue" type="TextInput" name="placeOfIssue" />
+        <Picker type="Picker" name="countryOfIssue">
+
+          {
+            countries.map((country,index) =>
+              <Picker.Item key={index} label={country.name} value={country.name} />
+            )
+
+          }
+      </Picker>
       </Form>
       <TouchableNativeFeedback onPress={this.onSave}>
         <View>
