@@ -5,6 +5,12 @@ import { AppRegistry } from 'react-native'
 import PassportDetails from './src/Containers/PassportDetails'
 import PersonalDetails from './src/Containers/PersonalDetails'
 import Start from './src/Containers/Start'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import reducer from './src/Reducers'
+
+let store = createStore(reducer)
+
 
 class AwsomeProject extends Component {
   render() {
@@ -14,6 +20,7 @@ class AwsomeProject extends Component {
       {title: 'Personal Details', index: 2}
     ];
     return (
+      <Provider store={store}>
       <Navigator
         initialRoute={routes[0]}
         intialRouterStack = {routes}
@@ -57,6 +64,7 @@ class AwsomeProject extends Component {
        }
         style={{padding: 10, paddingTop:80}}
       />
+      </Provider  >
     );
   }
 }

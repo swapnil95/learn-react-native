@@ -3,18 +3,27 @@ import { Text, ScrollView, StyleSheet, TouchableNativeFeedback, View, TextInput,
 import Form from 'react-native-form'
 import DatePicker from 'react-native-datepicker'
 import countries from '../Constants/countries'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as ActionCreators from '../Actions'
 
 
-export default class PassportDetails extends Component {
+
+class PassportDetails extends Component {
   constructor(props) {
     super(props)
     this.onSave = this.onSave.bind(this)
-    this.state = {passportIssuanceDate: "", passportExpirationDate: ""}
+    this.state = props.passportDetails
   }
+
+  componentWillReceiveProps(props) {
+    this.setState(props.passportDetails)
+  }
+
 
   onSave() {
     console.log("onSave",this.refs.form.getValues())
-    //this.props.actions.savePassportDetails(this.state)
+    this.props.actions.savePassportDetails(this.refs.form.getValues())
   }
 
   render() {
@@ -34,10 +43,11 @@ export default class PassportDetails extends Component {
     callbackProp: 'onDateChange',
     }
   }
+  const { passportDetails } = this.state
   return (
     <ScrollView>
       <Form ref="form" customFields={customFields}>
-        <TextInput placeholder="Passport Number" type="TextInput" name="passportNumber" />
+        <TextInput value={this.state.passportNumber} placeholder="Passport Number" type="TextInput" name="passportNumber" />
         <DatePicker
           style={{width: 300}}
           date={this.state.passportIssuanceDate}
@@ -54,7 +64,7 @@ export default class PassportDetails extends Component {
           type="DatePicker"
           name="passportExpirationDate"
         />
-        <TextInput placeholder="Place of Issue" type="TextInput" name="placeOfIssue" />
+        <TextInput value={this.state.placeOfIssue} placeholder="Place of Issue" type="TextInput" name="placeOfIssue" />
         <Picker type="Picker" name="countryOfIssue">
 
           {
@@ -73,3 +83,17 @@ export default class PassportDetails extends Component {
     </ScrollView>
   )}
 }
+
+function mapStateToProps(state) {
+  return {
+    passportDetails: state.passportDetails
+  }
+}
+
+function mapDispatchToProp(dispatch) {
+  return {
+    actions: bindActionCreators(ActionCreators, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProp)(PassportDetails)
