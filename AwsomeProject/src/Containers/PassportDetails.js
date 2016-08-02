@@ -65,7 +65,7 @@ class PassportDetails extends Component {
           name="passportExpirationDate"
         />
         <TextInput value={this.state.placeOfIssue} placeholder="Place of Issue" type="TextInput" name="placeOfIssue" />
-        <Picker type="Picker" name="countryOfIssue">
+        <Picker type="Picker" name="countryOfIssue" selectedValue={this.state.countryOfIssue}>
 
           {
             countries.map((country,index) =>
