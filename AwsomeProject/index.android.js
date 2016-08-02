@@ -4,6 +4,7 @@ import { AppRegistry } from 'react-native'
 
 import PassportDetails from './src/Containers/PassportDetails'
 import PersonalDetails from './src/Containers/PersonalDetails'
+import TravelDetails from './src/Containers/TravelDetails'
 import Start from './src/Containers/Start'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
@@ -17,7 +18,8 @@ class AwsomeProject extends Component {
     const routes = [
       {title: 'Start', index: 0},
       {title: 'Passport Details', index: 1},
-      {title: 'Personal Details', index: 2}
+      {title: 'Personal Details', index: 2},
+      {title: 'Travel Details', index: 3}
     ];
     return (
       <Provider store={store}>
@@ -32,6 +34,8 @@ class AwsomeProject extends Component {
               return (<PassportDetails />)
             case 'Personal Details':
               return (<PersonalDetails />)
+            case 'Travel Details':
+              return (<TravelDetails />)
           }
         }}
         navigationBar={

@@ -3,7 +3,6 @@ import { Text, ScrollView, StyleSheet, TouchableNativeFeedback, View, TextInput,
 import Form from '../Components/Form'
 import FormInput from '../Components/FormInput'
 import InputDate from '../Components/InputDate'
-import FormPicker from  '../Components/FormPicker'
 import countries from '../Constants/countries'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -11,14 +10,14 @@ import * as ActionCreators from '../Actions'
 
 
 
-class PassportDetails extends Component {
+class TravelDetails extends Component {
   constructor(props) {
     super(props)
-    this.state = props.passportDetails
+    this.state = props.travelDetails
   }
 
   componentWillReceiveProps(props) {
-    this.setState(props.passportDetails)
+    this.setState(props.travelDetails)
   }
 
   handleFieldValueChange = (model, newValue) => {
@@ -27,9 +26,8 @@ class PassportDetails extends Component {
 
   onSave = () => {
     console.log("onSave",this.state)
-    this.props.actions.savePassportDetails(this.state)
+    this.props.actions.saveTravelDetails(this.state)
   }
-
 
   render() {
   const styles = StyleSheet.create({
@@ -41,27 +39,33 @@ class PassportDetails extends Component {
         backgroundColor: '#777'
       }
     })
+  const customFields = {
+    'DatePicker': {
+    controlled: false,
+    valueProp: 'date',
+    callbackProp: 'onDateChange',
+    }
+  }
   return (
     <ScrollView>
       <Form onChange={this.handleFieldValueChange}>
-        <FormInput placeholder="Passport Number" model="passportNumber"
-          value={this.state.passportNumber} />
-        <InputDate
-          style={{width: 300}}
-          date={this.state.passportIssuanceDate}
-          placeholder="Passport Issuance Date"
-          model="passportIssuanceDate"
-        />
-        <InputDate
-          style={{width: 300}}
-          date={this.state.passportExpirationDate}
-          placeholder="Passport Expiration Date"
-          model="passportExpirationDate"
-        />
-        <FormInput placeholder="Place of Issue" model="placeOfIssue"
-          value={this.state.placeOfIssue} />
 
-        <FormPicker selectedValue={this.state.countryOfIssue} model="countryOfIssue" options={countries.map(function(country) {return country.name})} />
+        <InputDate
+          style={{width: 300}}
+          date={this.state.arrivalDate}
+          placeholder="Date of arrival"
+          model="arrivalDate"
+        />
+        <InputDate
+          style={{width: 300}}
+          date={this.state.departureDate}
+          placeholder="Date of Departure"
+          model="departureDate"
+        />
+        <FormInput placeholder="Visa Fees" model="visaFees"
+            value={this.state.visaFees} />
+        <FormInput placeholder="E-Ticket Number" model="eTicketNumber"
+            value={this.state.eTicketNumber} />
       </Form>
       <TouchableNativeFeedback onPress={this.onSave}>
         <View>
@@ -74,7 +78,7 @@ class PassportDetails extends Component {
 
 function mapStateToProps(state) {
   return {
-    passportDetails: state.passportDetails
+    travelDetails: state.travelDetails
   }
 }
 
@@ -84,4 +88,4 @@ function mapDispatchToProp(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProp)(PassportDetails)
+export default connect(mapStateToProps, mapDispatchToProp)(TravelDetails)

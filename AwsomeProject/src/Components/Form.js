@@ -1,15 +1,15 @@
 import React from 'react'
+import { View } from 'react-native'
 
 
 export default class Form extends React.Component {
 
   static propTypes = {
     onChange: React.PropTypes.func,
-    onSubmit: React.PropTypes.func
   }
 
   render() {
-    const { onChange, onSubmit } = this.props
+    const { onChange } = this.props
 
     const childrenWithProps = React.Children.map(this.props.children,
       (child) => React.cloneElement(child, {
@@ -17,6 +17,6 @@ export default class Form extends React.Component {
        })
     )
   return (
-    <form onSubmit={(e)=> {e.preventDefault(); onSubmit()}}>{childrenWithProps}</form>
+    <View>{childrenWithProps}</View>
   )}
 }
