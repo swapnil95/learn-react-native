@@ -13,20 +13,18 @@ import * as ActionCreators from '../Actions'
 class TravelDetails extends Component {
   constructor(props) {
     super(props)
-    this.onSave = this.onSave.bind(this)
     this.state = props.travelDetails
-    this.handleFieldValueChange = this.handleFieldValueChange.bind(this)
   }
 
   componentWillReceiveProps(props) {
     this.setState(props.travelDetails)
   }
 
-  handleFieldValueChange(model, newValue){
+  handleFieldValueChange = (model, newValue) => {
     this.setState({[model]: newValue})
   }
 
-  onSave() {
+  onSave = () => {
     console.log("onSave",this.state)
     this.props.actions.saveTravelDetails(this.state)
   }
@@ -48,7 +46,6 @@ class TravelDetails extends Component {
     callbackProp: 'onDateChange',
     }
   }
-  const { passportDetails } = this.state
   return (
     <ScrollView>
       <Form onChange={this.handleFieldValueChange}>
