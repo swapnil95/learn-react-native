@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Text, Navigator, TouchableHighlight } from 'react-native'
-import { AppRegistry } from 'react-native'
+import { Text, Navigator, TouchableHighlight,AppRegistry, View } from 'react-native'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 import PassportDetails from './src/Containers/PassportDetails'
 import PersonalDetails from './src/Containers/PersonalDetails'
@@ -43,28 +43,34 @@ class AwsomeProject extends Component {
            routeMapper={{
              LeftButton: (route, navigator, index, navState) => {
                if(index !== 0) {
-                return (<Text onPress={() => navigator.pop()}>Back</Text>)
+                return (<TouchableHighlight style={{width:50, height: 50}} onPress={() => navigator.pop()} ><Icon  style={{marginTop: 17, color: '#fff'}} size={25} name="arrow-left" /></TouchableHighlight>)
               }
               return (<Text></Text>)
              },
              RightButton: (route, navigator, index, navState) => {
                if(index !== routes.length-1) {
                  return (
-                   <Text onPress={() => navigator.push(routes[index+1])}>
-                    Next
-                   </Text>
-                 )
+                   <TouchableHighlight style={{height: 50}} onPress={() => navigator.push(routes[index+1])}><Icon  style={{marginTop: 17, color: '#fff'}} size={25} name="arrow-right" /></TouchableHighlight>
+                )
                }
                return (<Text></Text>)
              },
              Title: (route, navigator, index, navState) => {
               return (
-                <Text>{routes[index].title}</Text>
+                <Text
+                  style={{
+                    color: '#fff',
+                    marginTop: 17,
+                    marginLeft: 20,
+                    textAlign: 'center',
+                    width: 180
+                  }}>{routes[index].title}</Text>
               )
              },
            }}
-           style={{backgroundColor: '#5E7690'}}
-         />
+           style={{backgroundColor: '#00bcd4',
+                   elevation: 5}}
+        />
        }
         style={{padding: 10, paddingTop:80}}
       />

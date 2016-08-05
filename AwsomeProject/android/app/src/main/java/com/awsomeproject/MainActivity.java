@@ -6,6 +6,7 @@ import com.facebook.react.ReactPackage;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class MainActivity extends ReactActivity {
 
     /**

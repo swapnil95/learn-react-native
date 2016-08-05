@@ -7,6 +7,8 @@ import FormPicker from  '../Components/FormPicker'
 import countries from '../Constants/countries'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { Button } from 'react-native-material-design'
+
 import * as ActionCreators from '../Actions'
 
 
@@ -26,46 +28,57 @@ class PassportDetails extends Component {
   }
 
   onSave = () => {
-    console.log("onSave",this.state)
     this.props.actions.savePassportDetails(this.state)
   }
 
 
   render() {
-  const styles = StyleSheet.create({
 
-      button: {
-        textAlign: 'center',
-        color: 'white',
-        marginBottom: 7,
-        backgroundColor: '#777'
+    const styles = StyleSheet.create({
+        button: {
+          textAlign: 'center',
+          color: 'white',
+          marginBottom: 7,
+          backgroundColor: '#777'
+        },
+        formField: {
+          marginTop: 10,
+          marginBottom: 10,
+        }
+      })
+
+    const customFields = {
+      'DatePicker': {
+      controlled: false,
+      valueProp: 'date',
+      callbackProp: 'onDateChange',
       }
-    })
+    }
+
   return (
     <ScrollView>
       <Form onChange={this.handleFieldValueChange}>
         <FormInput placeholder="Passport Number" model="passportNumber"
-          value={this.state.passportNumber} />
+          value={this.state.passportNumber} style={styles.formField} />
+        <FormInput placeholder="Place of Issue" model="placeOfIssue"
+          value={this.state.placeOfIssue} style={styles.formField} />
+        <FormPicker selectedValue={this.state.countryOfIssue} style={styles.formField} model="countryOfIssue" options={countries.map(function(country) {return country.name})} />
         <InputDate
-          style={{width: 300}}
+          style={styles.formField, {width: 350}}
           date={this.state.passportIssuanceDate}
           placeholder="Passport Issuance Date"
           model="passportIssuanceDate"
         />
         <InputDate
-          style={{width: 300}}
+          style={styles.formField, {width: 350}}
           date={this.state.passportExpirationDate}
           placeholder="Passport Expiration Date"
           model="passportExpirationDate"
         />
-        <FormInput placeholder="Place of Issue" model="placeOfIssue"
-          value={this.state.placeOfIssue} />
-
-        <FormPicker selectedValue={this.state.countryOfIssue} model="countryOfIssue" options={countries.map(function(country) {return country.name})} />
       </Form>
-      <TouchableNativeFeedback onPress={this.onSave}>
+      <TouchableNativeFeedback>
         <View>
-          <Text style = {[styles.button,{marginTop: 20}]}>Save</Text>
+          <Button text="Save" raised style={{marginTop: 10}}/>
         </View>
       </TouchableNativeFeedback>
     </ScrollView>
