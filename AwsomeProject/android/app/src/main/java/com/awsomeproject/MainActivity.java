@@ -1,6 +1,10 @@
 package com.awsomeproject;
 
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactPackage;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends ReactActivity {
 
@@ -12,4 +16,9 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "AwsomeProject";
     }
+
+    protected List<ReactPackage> getPackages() {
+    return Arrays.<ReactPackage>asList(
+            new AnExampleReactPackage());
+}
 }
