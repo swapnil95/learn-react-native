@@ -3,13 +3,17 @@ import {
   Text, ScrollView, StyleSheet, TouchableNativeFeedback,
   View, TextInput, Picker, Radio
  } from 'react-native'
-import Form from 'react-native-form'
+import Form from '../Components/Form'
+import FormInput from '../Components/FormInput'
+import InputDate from '../Components/InputDate'
+import FormPicker from  '../Components/FormPicker'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import * as ActionCreators from '../Actions'
 import DatePicker from 'react-native-datepicker'
 
-import { travelTypes } from '../Constants/AppConstants'
+import { travelTypes, memberCount } from '../Constants/AppConstants'
+import * as ActionCreators from '../Actions'
+
 
 export default class PersonalDetails extends Component {
 
@@ -22,8 +26,28 @@ export default class PersonalDetails extends Component {
     this.setState(props.personalDetails)
   }
 
+  handleFieldValueChange = (model, newValue) => {
+    if(model === 'memberCount') {
+  		let temp = []
+  		for(var i=0; i< newValue; i++) {
+  			temp.push({})
+  		}
+  		this.setState({memberDetails: temp})
+  	}
+    this.setState({[model]: newValue})
+  }
+
+  handleMemberDetailsChange = (model, value) => {
+    this.state.memberDetails[this.state.selectedMember][model] = value
+  	this.setState(this.state)
+  }
+
+  handleMemberChange = (memberIndex) => {
+    this.setState({selectedMember: parseInt(memberIndex)})
+  }
+
   onSave = () => {
-    this.props.actions.savePassportDetails(this.refs.form.getValues())
+    this.props.actions.savePersonalDetails(this.state)
   }
 
   render () {
@@ -44,34 +68,55 @@ export default class PersonalDetails extends Component {
       callbackProp: 'onDateChange',
       }
     }
+
     return (
       <ScrollView>
-        <Form ref="form" customFields={customFields}>
-          <Picker type="Picker" name="travelType">
-            {
-              travelTypes.map((type,index) =>
-                <Picker.Item key={index} label={type} value={type} />
-            )}
-          </Picker>
-          <TextInput
-            value={this.state.memberCount}
-            placeholder="Member Count" type="TextInput"
-            name="memberCount" />
-          <TextInput
-            value={this.state.firstName}
-            placeholder="First Name" type="TextInput"
-            name="firstName" />
-          <TextInput
-            value={this.state.middleName}
-            placeholder="Middle"
-            type="TextInput" name="placeOfIssue" />
-          <DatePicker
+        <Form onChange={this.handleFieldValueChange}>
+          <FormPicker
+            selectedValue={this.state.travelType}
+            model="travelType"
+            options={travelTypes.map(function(type) {return type})}
+          />
+          {(this.state.travelType === 'Family')?
+            <FormPicker
+              selectedValue={this.state.memberCount}
+              model="memberCount"
+              options={memberCount.map(function(count) {return count})}
+            />
+            :<View></View>
+          }
+        </Form>
+        {(this.state.memberCount > 1)?
+          <TouchableNativeFeedback>
+            <View style={{flexDirection: 'row'}}>
+              {this.state.memberDetails.map((member,index) =>
+                <Text key={index}
+                      style = {[styles.button,{marginTop: 20, width: 70}]}
+                      id={"member-"+(index+1)}
+                      onPress={() => this.handleMemberChange(index)}>
+                        Member {index+1}
+                </Text>
+              )}
+            </View>
+          </TouchableNativeFeedback>
+          :<View></View>
+        }
+        <Form onChange={this.handleMemberDetailsChange}>
+          <FormInput placeholder="First Name" model="firstName"
+            value={(this.state.memberDetails && this.state.memberDetails[this.state.selectedMember])?this.state.memberDetails[this.state.selectedMember].firstName:""}
+          />
+          <FormInput placeholder="Middle Name" model="middleName"
+            value={(this.state.memberDetails && this.state.memberDetails[this.state.selectedMember])?this.state.memberDetails[this.state.selectedMember].middleName:""}
+          />
+          <FormInput placeholder="Last Name" model="lastName"
+            value={(this.state.memberDetails && this.state.memberDetails[this.state.selectedMember])?this.state.memberDetails[this.state.selectedMember].lastName:""}
+          />
+          <InputDate
             style={{width: 300}}
-            date={this.state.dob}
+            date={(this.state.memberDetails && this.state.memberDetails[this.state.selectedMember])?this.state.memberDetails[this.state.selectedMember].dob:""}
             placeholder="Date of Birth"
-            onDateChange={(date) => {this.setState({dob: date})}}
-            type="DatePicker"
-            name="dob" />
+            model="dob"
+          />
         </Form>
         <TouchableNativeFeedback onPress={this.onSave}>
           <View>
