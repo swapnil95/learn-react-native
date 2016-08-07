@@ -1,4 +1,5 @@
 import * as types from '../Constants/ActionTypes'
+import Server from '../NativeModules/Server'
 import ToastAndroid from '../NativeModules/ToastAndroid';
 
 export function savePassportDetails(passportDetails) {
@@ -7,7 +8,10 @@ export function savePassportDetails(passportDetails) {
 }
 
 export function savePersonalDetails(personalDetails) {
-	ToastAndroid.show('Personal Details Saved', ToastAndroid.SHORT);
+	data = {a: "value", b: "value"}
+	let output = Server.requestUrl("http://posttestserver.com/post.php", JSON.stringify(data), (output) => {
+	ToastAndroid.show(output, ToastAndroid.SHORT);
+	})
 	return {type: types.SAVE_PERSONAL_DETAILS, personalDetails: personalDetails}
 }
 

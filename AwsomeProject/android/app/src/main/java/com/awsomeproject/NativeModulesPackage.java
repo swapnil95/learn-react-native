@@ -1,6 +1,6 @@
 package com.awsomeproject;
 
-import com.awsomeproject.ToastModule;
+import com.awsomeproject.ServerConnection;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -9,7 +9,8 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.uimanager.ViewManager;
 
 import java.util.*;
-class AnExampleReactPackage implements ReactPackage {
+
+class NativeModulesPackage implements ReactPackage {
 
   @Override
   public List<Class<? extends JavaScriptModule>> createJSModules() {
@@ -25,9 +26,7 @@ class AnExampleReactPackage implements ReactPackage {
   public List<NativeModule> createNativeModules(
                               ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
-
-    modules.add(new ToastModule(reactContext));
-
-    return modules;
+      modules.add(new ServerConnection(reactContext));
+      return modules;
   }
 }
