@@ -43,14 +43,27 @@ class AwsomeProject extends Component {
            routeMapper={{
              LeftButton: (route, navigator, index, navState) => {
                if(index !== 0) {
-                return (<TouchableHighlight style={{width:50, height: 50}} onPress={() => navigator.pop()} ><Icon  style={{marginTop: 17, color: '#fff'}} size={25} name="arrow-left" /></TouchableHighlight>)
+                return (
+                  <TouchableHighlight
+                    style={{height: 50, marginLeft: 25}}
+                    onPress={() => navigator.pop()} >
+                      <Icon
+                        style={{marginTop: 17, color: '#fff'}}
+                        size={25} name="angle-left" />
+                  </TouchableHighlight>)
               }
               return (<Text></Text>)
              },
              RightButton: (route, navigator, index, navState) => {
                if(index !== routes.length-1) {
                  return (
-                   <TouchableHighlight style={{height: 50}} onPress={() => navigator.push(routes[index+1])}><Icon  style={{marginTop: 17, color: '#fff'}} size={25} name="arrow-right" /></TouchableHighlight>
+                   <TouchableHighlight
+                    style={{height: 50, marginRight: 25}}
+                    onPress={() => navigator.push(routes[index+1])}>
+                      <Icon
+                        style={{marginTop: 17, color: '#fff'}}
+                        size={25} name="angle-right" />
+                  </TouchableHighlight>
                 )
                }
                return (<Text></Text>)
@@ -63,13 +76,17 @@ class AwsomeProject extends Component {
                     marginTop: 17,
                     marginLeft: 20,
                     textAlign: 'center',
-                    width: 180
-                  }}>{routes[index].title}</Text>
+                    width: 180,
+                    fontWeight: 'bold',
+                    fontSize: 20,
+                  }}>
+                    {routes[index].title}
+                </Text>
               )
              },
            }}
            style={{backgroundColor: '#00bcd4',
-                   elevation: 5}}
+                   elevation: 8}}
         />
        }
         style={{padding: 10, paddingTop:80}}

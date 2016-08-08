@@ -30,22 +30,41 @@ class TravelDetails extends Component {
   }
 
   render() {
-  const styles = StyleSheet.create({
+    const styles = StyleSheet.create({
+        button: {
+          textAlign: 'center',
+          color: 'white',
+          marginTop: 70,
+          marginBottom: 10,
+          marginLeft: 16,
+          marginRight: 16,
+          backgroundColor: '#00bcd4',
+          height: 36,
+          elevation: 5,
+          paddingLeft: 16,
+          paddingRight: 16,
+          fontWeight: 'bold',
+          fontSize: 15,
+          textAlignVertical: 'center'
+        },
+        formField: {
+          marginTop: 8,
+          marginLeft: 16,
+          marginRight: 16
+        },
+        datePicker: {
+          width: 305,
+          marginTop: 32,
+        }
+      })
 
-      button: {
-        textAlign: 'center',
-        color: 'white',
-        marginBottom: 7,
-        backgroundColor: '#777'
+    const customFields = {
+      'DatePicker': {
+      controlled: false,
+      valueProp: 'date',
+      callbackProp: 'onDateChange',
       }
-    })
-  const customFields = {
-    'DatePicker': {
-    controlled: false,
-    valueProp: 'date',
-    callbackProp: 'onDateChange',
     }
-  }
   return (
     <ScrollView>
       <Form onChange={this.handleFieldValueChange}>
@@ -55,23 +74,31 @@ class TravelDetails extends Component {
           date={this.state.arrivalDate}
           placeholder="Date of arrival"
           model="arrivalDate"
+          style={[styles.formField, styles.datePicker]}
+          showIcon={false}
         />
         <InputDate
           style={{width: 300}}
           date={this.state.departureDate}
           placeholder="Date of Departure"
           model="departureDate"
+          style={[styles.formField, styles.datePicker]}
+          showIcon={false}
         />
         <FormInput placeholder="Visa Fees" model="visaFees"
-            value={this.state.visaFees} />
+            value={this.state.visaFees} style={styles.formField}/>
         <FormInput placeholder="E-Ticket Number" model="eTicketNumber"
-            value={this.state.eTicketNumber} />
+            value={this.state.eTicketNumber} style={styles.formField}/>
       </Form>
-      <TouchableNativeFeedback onPress={this.onSave}>
-        <View>
-          <Text style = {[styles.button,{marginTop: 20}]}>Save</Text>
-        </View>
-      </TouchableNativeFeedback>
+      <View style={styles.buttonWrapper}>
+        <TouchableNativeFeedback
+          background={TouchableNativeFeedback.Ripple('white')}
+          onPress={this.onSave} activeOpacity='100'>
+          <View>
+            <Text style = {[styles.button]}>SAVE</Text>
+          </View>
+        </TouchableNativeFeedback>
+      </View>
     </ScrollView>
   )}
 }

@@ -56,8 +56,27 @@ export default class PersonalDetails extends Component {
         button: {
           textAlign: 'center',
           color: 'white',
-          marginBottom: 7,
-          backgroundColor: '#777'
+          marginTop: 70,
+          marginBottom: 10,
+          marginLeft: 16,
+          marginRight: 16,
+          backgroundColor: '#00bcd4',
+          height: 36,
+          elevation: 5,
+          paddingLeft: 16,
+          paddingRight: 16,
+          fontWeight: 'bold',
+          fontSize: 15,
+          textAlignVertical: 'center'
+        },
+        formField: {
+          marginTop: 8,
+          marginLeft: 16,
+          marginRight: 16
+        },
+        datePicker: {
+          width: 305,
+          marginTop: 32,
         }
       })
 
@@ -76,12 +95,14 @@ export default class PersonalDetails extends Component {
             selectedValue={this.state.travelType}
             model="travelType"
             options={travelTypes.map(function(type) {return type})}
+            style={styles.formField}
           />
           {(this.state.travelType === 'Family')?
             <FormPicker
               selectedValue={this.state.memberCount}
               model="memberCount"
               options={memberCount.map(function(count) {return count})}
+              style={styles.formField}
             />
             :<View></View>
           }
@@ -102,13 +123,13 @@ export default class PersonalDetails extends Component {
           :<View></View>
         }
         <Form onChange={this.handleMemberDetailsChange}>
-          <FormInput placeholder="First Name" model="firstName"
+          <FormInput placeholder="First Name" model="firstName" style={styles.formField}
             value={(this.state.memberDetails && this.state.memberDetails[this.state.selectedMember])?this.state.memberDetails[this.state.selectedMember].firstName:""}
           />
-          <FormInput placeholder="Middle Name" model="middleName"
+          <FormInput placeholder="Middle Name" model="middleName" style={styles.formField}
             value={(this.state.memberDetails && this.state.memberDetails[this.state.selectedMember])?this.state.memberDetails[this.state.selectedMember].middleName:""}
           />
-          <FormInput placeholder="Last Name" model="lastName"
+          <FormInput placeholder="Last Name" model="lastName" style={styles.formField}
             value={(this.state.memberDetails && this.state.memberDetails[this.state.selectedMember])?this.state.memberDetails[this.state.selectedMember].lastName:""}
           />
           <InputDate
@@ -116,13 +137,19 @@ export default class PersonalDetails extends Component {
             date={(this.state.memberDetails && this.state.memberDetails[this.state.selectedMember])?this.state.memberDetails[this.state.selectedMember].dob:""}
             placeholder="Date of Birth"
             model="dob"
+            style={[styles.formField,styles.datePicker]}
+            showIcon={false}
           />
         </Form>
-        <TouchableNativeFeedback onPress={this.onSave}>
-          <View>
-            <Text style = {[styles.button,{marginTop: 20}]}>Save</Text>
-          </View>
-        </TouchableNativeFeedback>
+        <View style={styles.buttonWrapper}>
+          <TouchableNativeFeedback
+            background={TouchableNativeFeedback.Ripple('white')}
+            onPress={this.onSave} activeOpacity='100'>
+            <View>
+              <Text style = {[styles.button]}>SAVE</Text>
+            </View>
+          </TouchableNativeFeedback>
+        </View>
       </ScrollView>
     )
   }
