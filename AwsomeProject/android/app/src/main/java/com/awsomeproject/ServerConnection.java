@@ -1,6 +1,8 @@
 package com.awsomeproject;
 
 
+import android.util.Log;
+
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -33,7 +35,7 @@ public class ServerConnection extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void requestUrl(String url, String postParameters, Callback callback) {
+    public void requestUrl(String url, String postParameters, Callback successCallback) {
         HttpURLConnection urlConnection = null;
         try {
             // create connection
@@ -42,6 +44,7 @@ public class ServerConnection extends ReactContextBaseJavaModule {
 
             // handle POST parameters
             if (postParameters != null) {
+                Log.d("ReactNative", "chk1");
 
                 urlConnection.setDoOutput(true);
                 urlConnection.setRequestMethod("POST");
@@ -55,29 +58,37 @@ public class ServerConnection extends ReactContextBaseJavaModule {
                 out.print(postParameters);
                 out.close();
             }
-
+            Log.d("ReactNative", "chk2");
             // handle issues
             int statusCode = urlConnection.getResponseCode();
+            Log.d("ReactNative", " " + urlConnection.getResponseMessage());
+
             if (statusCode != HttpURLConnection.HTTP_OK) {
                 // throw some exception
             }
 
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-            callback.invoke(getStringFromInputStream(in));
+            successCallback.invoke(getStringFromInputStream(in));
 
         } catch (MalformedURLException e) {
+            Log.e("ReactNative", e.getMessage());
             // handle invalid URL
         } catch (SocketTimeoutException e) {
+            Log.e("ReactNative", e.getMessage());
             // hadle timeout
         } catch (ProtocolException e) {
             e.printStackTrace();
+            Log.e("ReactNative", e.getMessage());
         } catch (IOException e) {
+            Log.e("ReactNative", e.getMessage());
             // handle I/0
         } finally {
             if (urlConnection != null) {
+
                 urlConnection.disconnect();
             }
         }
+
     }
     // convert InputStream to String
     private static String getStringFromInputStream(InputStream is) {
